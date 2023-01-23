@@ -62,7 +62,9 @@ class Game extends React.Component {
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
+
     squares[i] = this.state.xIsNext ? 'X' : 'O';
+
     this.setState({
       history: history.concat([{
         squares: squares
@@ -86,8 +88,8 @@ class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       const desc = move ?
-        'Go to move #' + move :
-        'Go to game start';
+        'Tour #' + move :
+        'Mettre son âme en jeu';
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
@@ -96,10 +98,13 @@ class Game extends React.Component {
     });
 
     let status;
+    
     if (winner) {
-      status = 'Winner: ' + winner;
+      status = winner === "X" ? "Le Mortel a sauvé son âme !" : "Le grand Cthulhu vous a englouti !";
+    } else if( this.state.stepNumber === 9 ) {
+      status = "Match nul !";
     } else {
-      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+      status = (this.state.xIsNext ? 'Mortel' : 'Cthulhu') + ", à vous de jouer.";
     }
 
     return (
@@ -133,13 +138,29 @@ function calculateWinner(squares) {
     [1, 4, 7],
     [2, 5, 8],
     [0, 4, 8],
-    [2, 4, 6],
+    [2, 4, 6]
   ];
+ 
+  // Reset la couleur des cases (au cas où on utilise l'historique)
+  if( typeof document.getElementsByClassName("square")[0] !== "undefined" ) {
+    for ( let i = 0; i < 9; i++) {
+      document.getElementsByClassName("square")[i].style.backgroundColor = "rgba(1, 24, 14, 0.639)";
+    }
+  }  
+
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      // Change la couleur des cases gagnantes
+      document.getElementsByClassName("square")[a].style.backgroundColor = "green";
+      document.getElementsByClassName("square")[b].style.backgroundColor = "green";
+      document.getElementsByClassName("square")[c].style.backgroundColor = "green";
       return squares[a];
     }
   }
+
+
+
   return null;
 }
+
