@@ -1,10 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import './index.css';
 
 function Square(props) {
   return (
-    <button className="square" onClick={props.onClick}>
+    // Ajout d'un attribut className pour gérer les cases gagnantes via une classe CSS
+    <button className={props.className} onClick={props.onClick}>
       {props.value}
     </button>
   );
@@ -16,6 +17,8 @@ class Board extends React.Component {
       <Square
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
+        // AJout d'une propriété className pour gérer les cases gagnantes via une classe CSS
+        className={isWinningSquare(this.props.squares, i)}
       />
     );
   }
@@ -84,7 +87,7 @@ class Game extends React.Component {
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const winner = calculateWinner(current.squares);
+    const result = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
       const desc = move ?
@@ -99,8 +102,8 @@ class Game extends React.Component {
 
     let status;
     
-    if (winner) {
-      status = winner === "X" ? "Le Mortel a sauvé son âme !" : "Le grand Cthulhu vous a englouti !";
+    if (result) {
+      status = result.winner === "X" ? "Le Mortel a sauvé son âme !" : "Le grand Cthulhu vous a englouti !";
     } else if( this.state.stepNumber === 9 ) {
       status = "Match nul !";
     } else {
@@ -128,8 +131,9 @@ class Game extends React.Component {
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<Game />);
-
+/* fonction qui permet de déterminer si un joueur a gagné */
 function calculateWinner(squares) {
+  /* les différentes combinaisons gagnantes */
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -138,29 +142,28 @@ function calculateWinner(squares) {
     [1, 4, 7],
     [2, 5, 8],
     [0, 4, 8],
-    [2, 4, 6]
+    [2, 4, 6],
   ];
- 
-  // Reset la couleur des cases (au cas où on utilise l'historique)
-  if( typeof document.getElementsByClassName("square")[0] !== "undefined" ) {
-    for ( let i = 0; i < 9; i++) {
-      document.getElementsByClassName("square")[i].style.backgroundColor = "rgba(1, 24, 14, 0.639)";
-    }
-  }  
-
+  /* on parcourt les combinaisons gagnantes */
   for (let i = 0; i < lines.length; i++) {
+    /* on récupère les 3 cases de la combinaison */
     const [a, b, c] = lines[i];
+    /* si les 3 cases sont identiques et non nulles, on retourne le joueur gagnant et les cases gagnantes */
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      // Change la couleur des cases gagnantes
-      document.getElementsByClassName("square")[a].style.backgroundColor = "green";
-      document.getElementsByClassName("square")[b].style.backgroundColor = "green";
-      document.getElementsByClassName("square")[c].style.backgroundColor = "green";
-      return squares[a];
+      return {
+        winner : squares[a],
+        // Ajout d'un tableau contenant les cases gagnantes
+        winningSquares : [a, b, c]
+      }
     }
   }
-
-
-
+  /* si aucune combinaison n'est gagnante, on retourne null */
   return null;
+}
+
+// Ajout d'une fonction qui permet de déterminer si une case est gagnante en retournant une classe CSS
+function isWinningSquare(squares, square) {
+  let result = calculateWinner(squares);
+  return result && result.winningSquares.includes(square) ? "square winning-square" : "square";
 }
 
