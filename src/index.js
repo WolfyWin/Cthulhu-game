@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -75,6 +75,8 @@ class Game extends React.Component {
   }
 
   jumpTo(step) {
+    setStepNumber(step)
+    
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) === 0,
@@ -86,6 +88,8 @@ class Game extends React.Component {
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
+    const [stepNumber, setStepNumber] = useState(0)
+    
     const moves = history.map((step, move) => {
       const desc = move ?
         'Tour #' + move :
@@ -101,7 +105,7 @@ class Game extends React.Component {
     
     if (winner) {
       status = winner === "X" ? "Le Mortel a sauvé son âme !" : "Le grand Cthulhu vous a englouti !";
-    } else if( this.state.stepNumber === 9 ) {
+    } else if (stepNumber === 9) {
       status = "Match nul !";
     } else {
       status = (this.state.xIsNext ? 'Mortel' : 'Cthulhu') + ", à vous de jouer.";
