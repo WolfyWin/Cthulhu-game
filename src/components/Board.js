@@ -1,6 +1,6 @@
 import React from "react";
 import Square from "./Square";
-import { calculateWinner } from "../store/actions/calculateWinner";
+import {isWinningSquare} from "../helpers";
 
 export class Board extends React.Component {
   constructor(props) {
@@ -16,7 +16,6 @@ export class Board extends React.Component {
       />
     );
   }
-
   render() {
     return (
       <div>
@@ -38,14 +37,4 @@ export class Board extends React.Component {
       </div>
     );
   }
-}
-
-export const isWinningSquare = (squares, i) => {
-  // On récupère les cases gagnantes
-  const winningSquares = calculateWinner(squares).payload;
-  // Si la case est gagnante, on retourne la classe CSS
-  if (winningSquares && winningSquares.winningSquares.includes(i) ) {
-    return "winning-square";
-  }
-  return null;
 }

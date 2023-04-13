@@ -25,29 +25,29 @@ const gameReducer = (state = initialState, action) => {
         winningSquares: action.payload.winningSquares
       };
     case ActionType.ADD_HISTORY:
-      return [...state, { squares: action.payload }];
+      return {
+        ...state,
+        history: [...state.history, { squares: action.payload }]
+      };
 
     case ActionType.MAKE_MOVE:
       const history = state.history.slice(0, state.stepNumber + 1);
       const current = history[history.length - 1];
       const squares = current.squares.slice();
-
-      if (calculateWinner(squares).payload || squares[action.payload]) {
+      const newSquares = squares.slice();
+      if (calculateWinner(newSquares).payload || newSquares[action.payload]) {
         return state;
       }
 
-      squares[action.payload] = state.xIsNext ? 'X' : 'O';
-      let winner = calculateWinner(squares).payload;
+      newSquares[action.payload] = state.xIsNext ? 'X' : 'O';
+      const newWinner = calculateWinner(newSquares).payload;
 
       return {
-        history: history.concat([
-          {
-            squares: squares,
-          },
-        ]),
+        ...state,
+        history: [...history, { squares: newSquares }],
         stepNumber: history.length,
         xIsNext: !state.xIsNext,
-        winner: winner,
+        winner: newWinner,
       };
 
     case ActionType.JUMP_TO:

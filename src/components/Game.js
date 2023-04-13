@@ -5,14 +5,14 @@ import { calculateWinner } from "../store/actions/calculateWinner";
 import { jumpTo,  makeMove } from "../store/actions/jumpTo";
 
 class Game extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
-
   handleClick(i) {
     const current = this.props.history[this.props.stepNumber];
     const squares = current.squares.slice();
+
+    if (calculateWinner(squares).payload || squares[i]) {
+      return;
+    }
+    this.props.makeMove(i);
   }
 
   render() {
@@ -42,7 +42,7 @@ class Game extends React.Component {
         <div className="game-board">
           <Board
             squares={squares}
-            onClick={(i) => this.props.makeMove(i)}
+            onClick={(i) => this.handleClick(i)}
           />
         </div>
         <div className="game-info">
