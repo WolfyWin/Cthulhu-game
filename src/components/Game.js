@@ -1,6 +1,6 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import Board from './Board';
+import React from 'react'
+import { connect } from 'react-redux'
+import { Board }from './Board'
 import { calculateWinner } from "../store/actions/calculateWinner";
 import { jumpTo,  makeMove } from "../store/actions/jumpTo";
 

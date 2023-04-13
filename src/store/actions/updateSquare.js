@@ -1,4 +1,4 @@
-import { UPDATE_SQUARE } from "./ActionType"
+import { UPDATE_SQUARE } from "./actions"
 
 export const updateSquare = (index, value) => ({
   type: UPDATE_SQUARE,

@@ -2,17 +2,7 @@ import React from "react";
 import Square from "./Square";
 import { calculateWinner } from "../store/actions/calculateWinner";
 
-const isWinningSquare = (squares, i) => {
-  // On récupère les cases gagnantes
-  const winningSquares = calculateWinner(squares).payload;
-  // Si la case est gagnante, on retourne la classe CSS
-  if (winningSquares && winningSquares.winningSquares.includes(i) ) {
-    return "winning-square";
-  }
-  return null;
-}
-
-class Board extends React.Component {
+export class Board extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -50,4 +40,12 @@ class Board extends React.Component {
   }
 }
 
-export default Board;
+export const isWinningSquare = (squares, i) => {
+  // On récupère les cases gagnantes
+  const winningSquares = calculateWinner(squares).payload;
+  // Si la case est gagnante, on retourne la classe CSS
+  if (winningSquares && winningSquares.winningSquares.includes(i) ) {
+    return "winning-square";
+  }
+  return null;
+}

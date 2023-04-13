@@ -1,4 +1,4 @@
-import * as ActionType from "../actions/ActionType";
+import * as ActionType from "../actions/actions";
 import { calculateWinner } from "../actions/calculateWinner";
 
 const initialState = {
@@ -62,4 +62,3 @@ const gameReducer = (state = initialState, action) => {
 };
 
 export default gameReducer;
-

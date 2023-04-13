@@ -1,4 +1,4 @@
-import { MAKE_MOVE, JUMP_TO } from "./ActionType"
+import { MAKE_MOVE, JUMP_TO } from "./actions"
 
 export const jumpTo = (step) => ({
   type: JUMP_TO,

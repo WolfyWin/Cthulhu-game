@@ -1,4 +1,4 @@
-import {CALCULATE_WINNER} from "./ActionType"
+import {CALCULATE_WINNER} from "./actions"
 
 export const calculateWinner = (squares) => {
   /* les différentes combinaisons gagnantes */
