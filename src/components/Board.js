@@ -1,6 +1,6 @@
 import React from "react";
 import Square from "./Square";
-import {isWinningSquare} from "../helpers";
+import {calculateWinner} from "../store/actions/calculateWinner";
 
 export class Board extends React.Component {
   constructor(props) {
@@ -17,24 +17,30 @@ export class Board extends React.Component {
     );
   }
   render() {
-    return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
+    const squares = this.props.squares.map((square, i) => (
+      <Square
+        key={i}
+        value={square}
+        onClick={() => this.props.onClick(i)}
+        className={"square " + isWinningSquare(this.props.squares, i)}
+      />
+    ));
+    const rows = [];
+    for (let i = 0; i < 3; i++) {
+      rows.push(
+        <div key={i} className="board-row">
+          {squares.slice(i * 3, i * 3 + 3)}
         </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
+      );
+    }
+    return <div>{rows}</div>;
   }
 }
+
+export const isWinningSquare = (squares, i) => {
+  const winningSquares = calculateWinner(squares).payload;
+  if (winningSquares && winningSquares.winningSquares.includes(i)) {
+    return "winning-square";
+  }
+  return null;
+};

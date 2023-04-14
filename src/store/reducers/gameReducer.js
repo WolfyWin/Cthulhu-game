@@ -6,9 +6,7 @@ const initialState = {
   winner: null,
   winningSquares: null,
   stepNumber: 0,
-  history: [{
-    squares: Array(9).fill(null)
-  }]
+  history: [{ squares: Array(9).fill(null) }],
 };
 
 const gameReducer = (state = initialState, action) => {
@@ -29,7 +27,6 @@ const gameReducer = (state = initialState, action) => {
         ...state,
         history: [...state.history, { squares: action.payload }]
       };
-
     case ActionType.MAKE_MOVE:
       const history = state.history.slice(0, state.stepNumber + 1);
       const current = history[history.length - 1];
@@ -38,10 +35,8 @@ const gameReducer = (state = initialState, action) => {
       if (calculateWinner(newSquares).payload || newSquares[action.payload]) {
         return state;
       }
-
       newSquares[action.payload] = state.xIsNext ? 'X' : 'O';
       const newWinner = calculateWinner(newSquares).payload;
-
       return {
         ...state,
         history: [...history, { squares: newSquares }],
@@ -49,7 +44,6 @@ const gameReducer = (state = initialState, action) => {
         xIsNext: !state.xIsNext,
         winner: newWinner,
       };
-
     case ActionType.JUMP_TO:
       return {
         ...state,

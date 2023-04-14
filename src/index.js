@@ -1,8 +1,8 @@
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import React from 'react';
-import store from './store'
-import Game from "./components/Game";
+import store from './store/store'
+import Game  from "./components/Game";
 import './assets/css/style.css';
 
 const root = createRoot(document.getElementById('root'));
