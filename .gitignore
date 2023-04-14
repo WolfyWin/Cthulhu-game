@@ -30,3 +30,4 @@ dist/
 webpack.config.js
 package-lock.json
 .vscode/settings.json
+todo.md
