@@ -1,5 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
+
 
 function Square({ value, onClick, className }) {
   return (
@@ -15,4 +16,4 @@ Square.propTypes = {
   className: PropTypes.string,
 };
 
-export default Square;
+export { Square };

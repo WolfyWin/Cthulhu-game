@@ -1,5 +1,5 @@
-import * as ActionType from "../actions/actions";
-import { calculateWinner } from "../actions/calculateWinner";
+import {ADD_HISTORY, CALCULATE_WINNER, JUMP_TO, MAKE_MOVE, UPDATE_SQUARE} from "../actions/actions";
+import {calculateWinner}                                                  from "../actions/calculateWinner";
 
 const initialState = {
   xIsNext: true,
@@ -11,23 +11,23 @@ const initialState = {
 
 const gameReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.UPDATE_SQUARE:
+    case UPDATE_SQUARE:
       return {
         ...state,
         xIsNext: !state.xIsNext
       };
-    case ActionType.CALCULATE_WINNER:
+    case CALCULATE_WINNER:
       return {
         ...state,
         winner: action.payload.winner,
         winningSquares: action.payload.winningSquares
       };
-    case ActionType.ADD_HISTORY:
+    case ADD_HISTORY:
       return {
         ...state,
         history: [...state.history, { squares: action.payload }]
       };
-    case ActionType.MAKE_MOVE:
+    case MAKE_MOVE:
       const history = state.history.slice(0, state.stepNumber + 1);
       const current = history[history.length - 1];
       const squares = current.squares.slice();
@@ -44,15 +44,15 @@ const gameReducer = (state = initialState, action) => {
         xIsNext: !state.xIsNext,
         winner: newWinner,
       };
-    case ActionType.JUMP_TO:
+    case JUMP_TO:
       return {
         ...state,
         stepNumber: action.payload,
         xIsNext: action.payload % 2 === 0,
-      }
+      };
     default:
       return state;
   }
 };
 
-export default gameReducer;
+export {gameReducer };

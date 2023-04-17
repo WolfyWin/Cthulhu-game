@@ -1,27 +1,57 @@
-// Selector pour récupérer l'historique des coups
-export const getHistory = state => state.history;
+import {calculateWinner}  from "../actions/calculateWinner";
+import { createSelector } from 'reselect';
 
-// Selector pour récupérer le nombre de coups joués
-export const getStepNumber = state => state.stepNumber;
+const game = (state) => state;
 
-// Selector pour récupérer le joueur suivant
-export const getNextPlayer = state => state.xIsNext ? 'X' : 'O';
+export const getXIsNext = createSelector(
+  [game],
+  (game) => game.xIsNext
+);
 
-// Selector pour récupérer le tableau des carrés du plateau
-export const getSquares = state => {
-  const history = getHistory(state);
-  const current = history[getStepNumber(state)];
-  return current.squares;
+export const getWinner = createSelector(
+  [game],
+  (game) => game.winner
+);
+
+export const getWinningSquares = createSelector(
+  [game],
+  (game) => game.winningSquares
+);
+
+export const getStepNumber = createSelector(
+  [game],
+  (game) => game.stepNumber
+);
+
+export const getHistory = createSelector(
+  [game],
+  (game) => game.history
+);
+
+export const getCurrentSquares = createSelector(
+  [getHistory, getStepNumber],
+  (history, stepNumber) => history[stepNumber].squares
+);
+
+export const getStatus = createSelector(
+  [getCurrentSquares, getXIsNext, getWinner],
+  (squares, xIsNext, winner) => {
+    if (winner) {
+      return winner.winner === "X"
+        ? "Le Mortel a sauvé son âme !"
+        : "Le grand Cthulhu vous a englouti !";
+    } else if (squares.every((square) => square !== null)) {
+      return "Match nul !";
+    } else {
+      return `${xIsNext ? "Mortel" : "Cthulhu"}, à vous de jouer.`;
+    }
+  }
+);
+
+export const isWinningSquare = (squares, i) => {
+  const winningSquares = calculateWinner(squares).payload;
+  if (winningSquares && winningSquares.winningSquares.includes(i)) {
+    return "winning-square";
+  }
+  return null;
 };
-
-// Selector pour récupérer le gagnant
-export const getWinner = state => state.winner;
-
-// Selector pour récupérer les cases gagnantes
-export const getWinningSquares = state => state.winningSquares;
-
-// Selector pour savoir si le jeu est terminé
-export const isGameFinished = state => Boolean(getWinner(state));
-
-// Selector pour récupérer le coup aléatoire de l'IA
-export const getAIMove = state => state.aiMove.move;
