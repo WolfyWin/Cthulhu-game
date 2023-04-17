@@ -1,17 +1,19 @@
-import React from "react";
-import Square from "./Square";
-import {calculateWinner} from "../store/actions/calculateWinner";
+import React from 'react'
+import PropTypes from 'prop-types'
+import {Square} from './Square'
+import { isWinningSquare } from '../store/selectors/selectors'
 
 export class Board extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  static propTypes = {
+    squares: PropTypes.arrayOf(PropTypes.string),
+    onClick: PropTypes.func.isRequired,
+  };
+
   renderSquare(i) {
     return (
       <Square
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
-        // Ajout d'une propriété className pour gérer les cases gagnantes via une classe CSS
         className={"square " + isWinningSquare(this.props.squares, i)}
       />
     );
@@ -36,11 +38,3 @@ export class Board extends React.Component {
     return <div>{rows}</div>;
   }
 }
-
-export const isWinningSquare = (squares, i) => {
-  const winningSquares = calculateWinner(squares).payload;
-  if (winningSquares && winningSquares.winningSquares.includes(i)) {
-    return "winning-square";
-  }
-  return null;
-};
