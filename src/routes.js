@@ -9,12 +9,12 @@ const BoardGame = () => {
       <div className={"navBar"}>
         <ul>
           <li>
-            <Link to="/" style={{display: "block", color: "#b0ecb3", textAlign: "center", padding: "14px 16px", fontSize: "1.6rem", textDecoration: "none"}}>
+            <Link className={"link"} to="/">
               Play
             </Link>
           </li>
           <li>
-            <Link to="history" style={{display: "block", color: "#b0ecb3", textAlign: "center", padding: "14px 16px", fontSize: "1.6rem", textDecoration: "none"}}>
+            <Link className={"link"}  to="history">
               History
             </Link>
           </li>
