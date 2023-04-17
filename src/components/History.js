@@ -35,9 +35,11 @@ const History = () => {
   const status = getStatus();
 
   return (
-        <div className="game-info">
-        <div>{status}</div>
-        <ol>{moves}</ol>
+        <div className="game">
+          <div className="game-info">
+            <div>{status}</div>
+            <ol>{moves}</ol>
+          </div>
         </div>
   );
 };

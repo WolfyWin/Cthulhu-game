@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Board }from './Board'
 import {makeMove} from "../store/actions/makeMove";
 import {calculateWinner} from "../store/actions/calculateWinner";
-import {jumpTo} from "../store/actions/jumpTo";
 
 const Game = () => {
   const dispatch = useDispatch();

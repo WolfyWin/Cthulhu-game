@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Link, Route, Routes} from 'react-router-dom'
-import {BoardView}                                    from './components/BoardView'
-import {History as Game}                              from './components/History'
+import {History}                              from './components/History'
+import {Game}                              from './components/Game'
 import React                                          from 'react'
 
 const BoardGame = () => {
@@ -20,8 +20,8 @@ const BoardGame = () => {
           </li>
         </ul>
         <Routes>
-          <Route path="/" element={<BoardView />} />
-          <Route path="history" element={<Game />} />
+          <Route path="/" element={<Game />} />
+          <Route path="history" element={<History />} />
         </Routes>
       </div>
     </Router>

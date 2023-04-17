@@ -70,6 +70,7 @@ button:hover {
 .game {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .game-info {
@@ -84,7 +85,6 @@ button:hover {
   flex-basis: 100%;
   max-width: 600px;
   margin-top: 20px;
-  margin-left: 10%;
 }
 
 .game-board {
